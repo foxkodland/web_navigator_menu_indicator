@@ -1,0 +1,192 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+
+:root {
+    --bg-color-body: #050018;
+    --bg-color-nav: linear-gradient(45deg,#2196f3, #e91e61);
+    --font-size-icon: 35px;
+    --color-text: rgb(255, 255, 255);
+
+    --nav-height: 100px;
+    --nav-width: 550px;
+    --nav-border-radius: 15px;
+
+    --size-indicator: 100px;
+
+    /* псевдоэлементы у индикатора, чтобы создать вторые углы */
+    --size-angle-width: 30px;
+    --size-angle-height: 30px;
+}
+
+
+/* общие */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+
+
+
+body {
+    background-color: var(--bg-color-body);
+    font-family: "Roboto", sans-serif;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+
+
+/* navigator */
+.navigator {
+    width: var(--nav-width);
+    height: var(--nav-height);
+    background: var(--bg-color-nav);
+    border-radius: var(--nav-border-radius);
+    position: relative;
+}
+
+.navigator ul {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+
+    list-style: none;
+}
+
+.navigator li {
+    width: 70px;
+    /* чтобы центрировать иконки, ведь текст спрятан */
+    translate: 0 10px;
+    z-index: 1;
+}
+
+.navigator li a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--color-text);
+}
+
+.navigator li .icon {
+    font-size: var(--font-size-icon);
+    color: white;
+    transition: .5s;
+
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navigator li .icon::after {
+    content: '';
+    background-color: transparent;
+    width: calc(var(--size-indicator) * 0.7);
+    height: calc(var(--size-indicator) * 0.7);
+    border-radius: 50%;
+    border: 3px white solid;
+    
+    transition: 0.5s;
+
+    position: absolute;
+    top: -18px;
+    left: -19px;
+
+    scale: 0;
+}
+
+.navigator li .text {
+    transform: translateY(10px);
+    opacity: 0;
+    transition: .5s;
+    font-size: 20px;
+}
+
+
+
+
+/* active */
+.navigator li.active a .icon{
+    transform: translateY(calc(var(--nav-height) / 2 * -1 + 4px));
+}
+
+.navigator li.active a .text{
+    transform: translateY(-10px);
+    opacity: 1;
+}
+
+.navigator li.active .icon::after {
+    transition-delay: 0.5s;
+    scale: 1;
+}
+
+
+
+
+
+/* indicator */
+.indicator {
+    background: var(--bg-color-nav);
+
+    width: var(--size-indicator);
+    height: var(--size-indicator);
+    border-radius: 50%;
+    border: 8px var(--bg-color-body) solid;
+
+    position: absolute;
+    top: calc(var(--size-indicator) / 2 * -1);
+    left: calc((var(--nav-width) - 5 * 70px - 4 * 20px) / 2 - 15px);
+    z-index: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: transform .5s;
+}
+
+
+/* псевдо, чтобы "срезать" углы у панели */
+.indicator::after,
+.indicator::before {
+    content: '';
+    background: transparent;
+    width: var(--size-angle-width);
+    height: var(--size-angle-height);
+    position: absolute;
+    top: 50%;
+}
+
+.indicator::after {
+    left: calc(8px - var(--size-angle-width) - 10px);
+    box-shadow: 3px -9px 0 0 var(--bg-color-body);
+    border-top-right-radius: 80%;
+}
+
+
+.indicator::before {
+    right: calc(8px - var(--size-angle-width) - 10px);
+    box-shadow: -3px -9px 0 0 var(--bg-color-body);
+    border-top-left-radius: 80%;
+}
+
+
